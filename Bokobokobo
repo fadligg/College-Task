@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+class Bokobo {
+    public static void main(String[] args) {
+            String penyambutanSatu = "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+            penyambutanSatu += "\nSelamat datang di Todibo (Toko Merchandise Kobo)";
+            penyambutanSatu += "\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+            penyambutanSatu += "\nSilakan mau membeli merchandise apa?";
+            penyambutanSatu += "\n1. Poster Kobo Kanaeru ($10)";
+            penyambutanSatu += "\n2. Gantungan kunci Kobo Kanaeru ($5)";
+            penyambutanSatu += "\n3. Lanyard Kobo Kanaeru ($8)";
+            penyambutanSatu += "\n4. T-shirt Kobo Kanaeru ($20)";
+            penyambutanSatu += "\n0. Sudah cukup belanjanya, ehe~~";
+            penyambutanSatu += "\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+            System.out.println(penyambutanSatu);
+            
+            Scanner input = new Scanner(System.in);
+                int beli = input.nextInt();
+            String kobo1 = ("Poster Kobo Kanaeru");
+            String kobo2 = ("Gantungan Kunci Kobo Kanaeru");
+            String kobo3 = ("Lanyard Kobo Kanaeru");
+            String kobo4 = ("T-shirt Kobo Kanaeru");
+            
+            if (beli == 1) {
+                System.out.println("Terima kasih sudah beli " + kobo1);
+            }
+            if (beli == 2){
+                System.out.println("Terima kasih sudah beli " + kobo2);
+            }
+             if (beli == 3){
+                System.out.println("Terima kasih sudah beli " + kobo3);
+            }
+             if (beli == 4){
+                System.out.println("Terima kasih sudah beli " + kobo4);
+            }
+            if (beli == 0){
+                System.out.println("Terima kasih sudah mengunjungi Todibo");
+             }
+           
+            
+            }
+        
+     }
+            
+
+        
+
+
+
