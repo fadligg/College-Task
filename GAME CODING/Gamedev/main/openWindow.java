@@ -7,7 +7,7 @@ public class openWindow {
         JFrame window = new JFrame(); //to create a window
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("(temp)2D Game");
+        window.setTitle("C&G");
 
         GamePanel gamePanel = new GamePanel();//linked to GamePanel.java
         window.add(gamePanel);//to add panel to the window

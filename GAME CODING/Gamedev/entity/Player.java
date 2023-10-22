@@ -1,6 +1,7 @@
 package Gamedev.entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,51 +14,107 @@ public class Player extends Entity{
 
     GamePanel gp;
     KeyHandler keyH;
+
+    public final int screenX;
+    public final int screenY;
+
+    int counter2 = 0;
     
     public Player (GamePanel gp, KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(12, 16, 32, 32);
+
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues (){
-        x = 200;
-        y = 200;
+        worldX = gp.tileSize * 25 ;
+        worldY = gp.tileSize * 24;
         speed = 4;
         direction = "down";
     }
     public void getPlayerImage (){
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_down_2-1 (1).png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_down_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_right_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_left_2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_up_(1).1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_up_(2).1.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_down_(1).1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_down_(2).1.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_right_(1).png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_right_(2).png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_left_(1).png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/Assets/Player/Walk Sprites/boy_left_(2).png"));
 
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
     public void update (){
+        if(keyH.Upressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true)  {
+
         if(keyH.Upressed == true){
-            direction = "up";
-            y -= speed;
+            direction = "up";        
         }
-        if(keyH.downPressed == true){
-            direction = "down";
-            y += speed;            
+        else if(keyH.downPressed == true){
+            direction = "down";              
         }
-        if(keyH.rightPressed == true){
-            direction = "right";
-            x += speed;          
+        else if(keyH.rightPressed == true){
+            direction = "right";             
         }
-        if(keyH.leftPressed == true){
-            direction = "left";
-            x -= speed;
+        else if(keyH.leftPressed == true){
+            direction = "left";   
         }
+
+        //check tile collision
+        collisionOn = false;
+        gp.collChecker.checkTile(this);
+
+        if (collisionOn == false){
+            switch (direction){
+                case "up":
+                worldY -= speed;
+                    break;
+                case "down":
+                worldY += speed;
+                    break;
+                case "right":
+                worldX += speed; 
+                    break;
+                case "left":
+                worldX -= speed;
+                    break;
+                
+            }
+        }
+
+        spriteCounter++;
+        if(spriteCounter > 13) {
+            if(spriteNum == 1) {
+                spriteNum = 2;
+            }else if (spriteNum == 2){
+                spriteNum = 1;                
+            }
+            spriteCounter = 0;
+        }
+        }
+        if(keyH.Upressed == false && keyH.downPressed == false 
+            && keyH.rightPressed == false && keyH.leftPressed == false){
+                direction = "down";
+                spriteCounter ++;
+                if(spriteCounter > 13) {
+                 if(spriteNum == 1) {
+                spriteNum = 2;
+                 }else if (spriteNum == 2){
+                spriteNum = 1;                
+                 }
+                spriteCounter = 0;
+                }
+        }
+
     }
     public void draw (Graphics2D g2){
        //g2.setColor(Color.white);
@@ -66,18 +123,38 @@ public class Player extends Entity{
 
        switch (direction) {
         case "up":
-            image = up1;
+            if(spriteNum == 1) {
+                image = up1;
+            }
+            if (spriteNum == 2) {
+                image = up2;
+            }
             break;
         case "down":
-            image = down1;
+            if(spriteNum == 1) {
+                image = down1;
+            }
+            if (spriteNum == 2) {
+                image = down2;
+            }           
             break;
         case "right":
-            image = right1;
+            if(spriteNum == 1) {
+                image = right1;
+            }
+            if (spriteNum == 2) {
+                image = right2;
+            }
             break;
         case "left":
-            image = left1;
+            if(spriteNum == 1) {
+                image = left1;
+            }
+            if (spriteNum == 2) {
+                image = left2;
+            }
             break;
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
