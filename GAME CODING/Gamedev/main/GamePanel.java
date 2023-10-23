@@ -28,19 +28,24 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
+    //Frame per Second
     int FPS = 60;
 
+    //System
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
-    Thread gameThread; 
+    KeyHandler keyH = new KeyHandler(this);   
+    Sound sound = new Sound(); 
     public CollisionChecker collChecker = new CollisionChecker(this);
+    Thread gameThread;
+
+    //Entity, tile
     public Player player = new Player (this,keyH);
     public Object tile;
 
-    //player coordinates and speed
-    //int playerX = 200;
-    //int playerY = 200;
-    //int playerSpeed = 5;
+    //Game State (Pause, TitleScreen,etc.)
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel(){
         
@@ -50,6 +55,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
+    }
+    public void inGame(){
+        playMusic(0);
+        gameState = playState;
     }
     public void startGameThread() {
 
@@ -115,11 +124,15 @@ public class GamePanel extends JPanel implements Runnable {
             //}
         } 
 
-        
-        
     }
     public void update () {
-       player.update();
+        //player.update();
+        if (gameState == playState){
+            player.update();
+        }
+        if (gameState == pauseState){
+           
+        }
     }
     public void paintComponent (Graphics g) {
 
@@ -134,7 +147,14 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
         
     }
-
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    public void stopMusic(){
+        sound.stop();
+    }
    
     
 

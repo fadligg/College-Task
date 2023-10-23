@@ -7,7 +7,7 @@ public class openWindow {
         JFrame window = new JFrame(); //to create a window
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("C&G");
+        window.setTitle("Jack In The Woods");
 
         GamePanel gamePanel = new GamePanel();//linked to GamePanel.java
         window.add(gamePanel);//to add panel to the window
@@ -18,6 +18,8 @@ public class openWindow {
         window.setVisible(true);
 
         gamePanel.startGameThread();
+        gamePanel.playMusic(0);
+        gamePanel.inGame();
     }
 
 } 
